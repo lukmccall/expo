@@ -76,6 +76,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSDictionary *)getUpdatesConfig;
 
++ (void)setDevMenuAppBridgeWithBridge:(RCTBridge *)bridge;
+
 @end
 
 NS_ASSUME_NONNULL_END

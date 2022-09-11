@@ -21,7 +21,7 @@ import {
   SettingsFilledIcon,
 } from 'expo-dev-client-components';
 import * as React from 'react';
-import { Platform } from 'react-native';
+import { Platform, View as RNView, Text as RNText, Button as RNButton } from 'react-native';
 import { Switch } from 'react-native-gesture-handler';
 
 import { useAppInfo } from '../hooks/useAppInfo';
@@ -42,6 +42,8 @@ export function Main({ registeredCallbacks = [] }: MainProps) {
 
   const urlClipboard = useClipboard();
   const appInfoClipboard = useClipboard();
+
+  const [SharedComponent, setSharedComponent] = React.useState(null);
 
   function onCopyUrlPress() {
     const { hostUrl } = appInfo;
@@ -215,6 +217,28 @@ export function Main({ registeredCallbacks = [] }: MainProps) {
       )}
 
       <View mx="small">
+        <View roundedTop="large" bg="default">
+          <SettingsRowButton
+            label="Test bound"
+            icon={null}
+            onPress={() => {
+              const body = global.SharedUIRegistry.getComponentData('X');
+              const WrappedX = eval(body);
+              const X = WrappedX(
+                {
+                  View: RNView,
+                  Text: RNText,
+                  Button: RNButton,
+                },
+                React
+              );
+
+              setSharedComponent(X);
+            }}
+          />
+        </View>
+
+        {SharedComponent}
         <View roundedTop="large" bg="default">
           <SettingsRowButton
             disabled={!devSettings.isPerfMonitorAvailable}

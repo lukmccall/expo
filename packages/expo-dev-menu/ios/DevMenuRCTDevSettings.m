@@ -6,7 +6,7 @@
 
 + (NSString *)moduleName
 {
-  return @"DevSettings";
+  return @"DevSettings_dupa";
 }
 
 - (NSArray<NSString *> *)supportedEvents

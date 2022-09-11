@@ -1,82 +1,142 @@
 import React from 'react';
+import { View, Text } from 'react-native';
 
-import MainNavigator, { optionalRequire } from './MainNavigator';
-import { createProxy, startAsync, addListener } from './relapse/client';
-let Notifications;
-try {
-  Notifications = require('expo-notifications');
-} catch {
-  // do nothing
-}
+const SharedFunction = (function () {
+  const _f = function () {
+    return (
+      <View>
+        <Text>Shared Component</Text>
+      </View>
+    );
+  };
 
-const loadAssetsAsync =
-  optionalRequire(() => require('native-component-list/src/utilities/loadAssetsAsync')) ??
-  (async () => null);
+  _f._name = 'SharedFunction';
+  _f._string = 'sharedFunction_function';
+  _f._fileName = 'App.tsx';
+  _f._lineNumber = 4;
+  _f._hash = '2137';
+  _f._uiClosure = [];
 
-function useLoaded() {
-  const [isLoaded, setLoaded] = React.useState(false);
-  React.useEffect(() => {
-    let isMounted = true;
-    // @ts-ignore
-    loadAssetsAsync()
-      .then(() => {
-        if (isMounted) setLoaded(true);
-      })
-      .catch((e) => {
-        console.warn('Error loading assets: ' + e.message);
-        if (isMounted) setLoaded(true);
-      });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-  return isLoaded;
-}
+  return _f;
+})();
+
+const hashCode = function (s) {
+  return s.split('').reduce(function (a, b) {
+    a = (a << 5) - a + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+};
+
+const X = (function () {
+  const _f = function _f() {
+    return (
+      <View>
+        <Text>Shared Component</Text>
+      </View>
+    );
+  };
+
+  _f._string = `function X(){return/*#__PURE__*/React.createElement(jsThis.View,null,/*#__PURE__*/React.createElement(jsThis.Text,null,"cos!"),/*#__PURE__*/React.createElement(jsThis.Button,{title:"Press me",onClick:function onClick(){console.alert("hi from on click!");}}));}`;
+  _f._uiClosure = ['View', 'Text', 'Button'];
+
+  _f._name = 'X';
+  _f._fileName = 'App.tsx';
+  _f._lineNumber = 4;
+  _f._hash = '' + hashCode(_f._string);
+
+  global.SharedUIEntryPoint?.exportSharedUI(_f);
+  return _f;
+})();
+
+// const x = global.SharedUIRegistry.getComponentData('dupa');
+// console.log(x);
 
 export default function Main() {
-  // @ts-ignore
-  if (global.DETOX) {
-    React.useEffect(() => {
-      addListener((data) => {
-        if (data.globals) {
-          for (const moduleName of data.globals) {
-            // @ts-ignore
-            global[moduleName] = createProxy(moduleName);
-          }
-        }
-      });
-
-      let stop;
-      startAsync().then((_stop) => (stop = _stop));
-
-      return () => stop && stop();
-    }, []);
-  }
-
-  React.useEffect(() => {
-    try {
-      const subscription = Notifications.addNotificationResponseReceivedListener(
-        ({ notification, actionIdentifier }) => {
-          console.info(
-            `User interacted with a notification (action = ${actionIdentifier}): ${JSON.stringify(
-              notification,
-              null,
-              2
-            )}`
-          );
-        }
-      );
-      return () => subscription?.remove();
-    } catch (e) {
-      console.debug('Could not have added a listener for received notification responses.', e);
-    }
-  }, []);
-
-  const isLoaded = useLoaded();
-
-  if (!isLoaded) {
-    return null;
-  }
-
-  return <MainNavigator />;
+  return (
+    <View style={{ flex: 1 }}>
+      <Text> Hi 👋</Text>
+    </View>
+  );
 }
+
+// import MainNavigator, { optionalRequire } from './MainNavigator';
+// import { createProxy, startAsync, addListener } from './relapse/client';
+
+// let Notifications;
+// try {
+//   Notifications = require('expo-notifications');
+// } catch {
+//   // do nothing
+// }
+
+// const loadAssetsAsync =
+//   optionalRequire(() => require('native-component-list/src/utilities/loadAssetsAsync')) ??
+//   (async () => null);
+
+// function useLoaded() {
+//   const [isLoaded, setLoaded] = React.useState(false);
+//   React.useEffect(() => {
+//     let isMounted = true;
+//     // @ts-ignore
+//     loadAssetsAsync()
+//       .then(() => {
+//         if (isMounted) setLoaded(true);
+//       })
+//       .catch((e) => {
+//         console.warn('Error loading assets: ' + e.message);
+//         if (isMounted) setLoaded(true);
+//       });
+//     return () => {
+//       isMounted = false;
+//     };
+//   }, []);
+//   return isLoaded;
+// }
+
+// export default function Main() {
+//   // @ts-ignore
+//   if (global.DETOX) {
+//     React.useEffect(() => {
+//       addListener((data) => {
+//         if (data.globals) {
+//           for (const moduleName of data.globals) {
+//             // @ts-ignore
+//             global[moduleName] = createProxy(moduleName);
+//           }
+//         }
+//       });
+
+//       let stop;
+//       startAsync().then((_stop) => (stop = _stop));
+
+//       return () => stop && stop();
+//     }, []);
+//   }
+
+//   React.useEffect(() => {
+//     try {
+//       const subscription = Notifications.addNotificationResponseReceivedListener(
+//         ({ notification, actionIdentifier }) => {
+//           console.info(
+//             `User interacted with a notification (action = ${actionIdentifier}): ${JSON.stringify(
+//               notification,
+//               null,
+//               2
+//             )}`
+//           );
+//         }
+//       );
+//       return () => subscription?.remove();
+//     } catch (e) {
+//       console.debug('Could not have added a listener for received notification responses.', e);
+//     }
+//   }, []);
+
+//   const isLoaded = useLoaded();
+
+//   if (!isLoaded) {
+//     return null;
+//   }
+
+//   return <MainNavigator />;
+// }

@@ -17,11 +17,6 @@ NSString *LAUNCHER_NAVIGATION_STATE_KEY = @"expo.modules.devlauncher.navigation-
 
 @implementation EXDevLauncherInternal
 
-+ (NSString *)moduleName
-{
-  return @"EXDevLauncherInternal";
-}
-
 - (instancetype)init {
   if (self = [super init]) {
     [[EXDevLauncherController sharedInstance].pendingDeepLinkRegistry subscribe:self];

@@ -72,6 +72,8 @@ open class DevMenuManager: NSObject {
   lazy var appInstance: DevMenuAppInstance = DevMenuAppInstance(manager: self)
 
   var currentScreen: String?
+  
+  var sharedInstaller: UInt64?
 
   /**
    For backwards compatibility in projects that call this method from AppDelegate
@@ -141,6 +143,12 @@ open class DevMenuManager: NSObject {
   @objc
   @discardableResult
   public func openMenu() -> Bool {
+    let sharedInstaller = currentBridge?.module(forName: "SharedUIEntryPointInstaller") as? SharedUIEntryPointInstaller
+    self.sharedInstaller = sharedInstaller?.getRegistryHolder()
+    
+    let ownSharedInstallerappInstance = appInstance.bridge?.module(forName: "SharedUIEntryPointInstaller") as? SharedUIEntryPointInstaller
+    ownSharedInstallerappInstance?.setBoundedRegistryHolder(self.sharedInstaller ?? 0)
+    
     appInstance.sendOpenEvent()
     return openMenu(nil)
   }

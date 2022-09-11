@@ -699,6 +699,14 @@
   }
 }
 
++ (void)setDevMenuAppBridgeWithBridge:(RCTBridge *)bridge
+{
+  DevMenuManager *manager = [DevMenuManager shared];
+  manager.currentBridge = bridge;
+  manager.currentManifest = nil;
+  manager.currentManifestURL = nil;
+}
+
 - (void)invalidateDevMenuApp
 {
   DevMenuManager *manager = [DevMenuManager shared];

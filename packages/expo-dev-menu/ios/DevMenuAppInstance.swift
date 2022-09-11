@@ -53,7 +53,7 @@ class DevMenuAppInstance: DevMenuBaseAppInstance, RCTBridgeDelegate {
     var modules: [RCTBridgeModule] = [DevMenuInternalModule(manager: manager)]
     modules.append(contentsOf: DevMenuVendoredModulesUtils.vendoredModules(bridge, addReanimated2: true))
     modules.append(DevMenuLoadingView.init())
-    modules.append(DevMenuRCTDevSettings.init())
+//    modules.append(DevMenuRCTDevSettings.init())
     return modules
   }
 

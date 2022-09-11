@@ -141,8 +141,8 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Main' do |main|
-    s.source_files   = 'ios/**/*.{h,m,mm,swift}'
-    s.preserve_paths = 'ios/**/*.{h,m,mm,swift}'
+    s.source_files   = 'ios/**/*.{h,m,mm,swift}', 'common/**/*.{h,cpp}'
+    s.preserve_paths = 'ios/**/*.{h,m,mm,swift}', 'common/**/*.{h,cpp}'
     s.exclude_files  = 'ios/*Tests/**/*', 'vendored/**/*'
 
     main.dependency 'React-Core'

@@ -35,8 +35,8 @@
 - (RCTDevSettings *)devSettings
 {
   // uncomment below to enable fast refresh for development builds of DevMenu
-  //  return super.devSettings;
-  return nil;
+    return super.devSettings;
+//  return nil;
 }
 
 - (RCTDevMenu *)devMenu
@@ -46,7 +46,7 @@
 
 - (NSArray<Class> *)filterModuleList:(NSArray<Class> *)modules
 {
-  NSArray<NSString *> *allowedModules = @[@"RCT"];
+  NSArray<NSString *> *allowedModules = @[@"RCT", @"SharedUI"];
   NSArray<Class> *filteredModuleList = [modules filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id  _Nullable clazz, NSDictionary<NSString *,id> * _Nullable bindings) {
     NSString* clazzName = NSStringFromClass(clazz);
       
