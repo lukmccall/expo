@@ -146,8 +146,8 @@ open class DevMenuManager: NSObject {
     let sharedInstaller = currentBridge?.module(forName: "SharedUIEntryPointInstaller") as? SharedUIEntryPointInstaller
     self.sharedInstaller = sharedInstaller?.getRegistryHolder()
     
-    let ownSharedInstallerappInstance = appInstance.bridge?.module(forName: "SharedUIEntryPointInstaller") as? SharedUIEntryPointInstaller
-    ownSharedInstallerappInstance?.setBoundedRegistryHolder(self.sharedInstaller ?? 0)
+    let ownSharedInstallerInstance = appInstance.bridge?.module(forName: "SharedUIEntryPointInstaller") as? SharedUIEntryPointInstaller
+    ownSharedInstallerInstance?.setBoundedRegistryHolder(self.sharedInstaller ?? 0)
     
     appInstance.sendOpenEvent()
     return openMenu(nil)

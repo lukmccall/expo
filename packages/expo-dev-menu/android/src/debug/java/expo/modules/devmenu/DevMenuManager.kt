@@ -35,6 +35,7 @@ import expo.interfaces.devmenu.items.getItemsOfType
 import expo.modules.devmenu.api.DevMenuMetroClient
 import expo.modules.devmenu.detectors.ShakeDetector
 import expo.modules.devmenu.detectors.ThreeFingerLongPressDetector
+import expo.modules.devmenu.modules.DevMenuModule
 import expo.modules.devmenu.modules.DevMenuPreferences
 import expo.modules.devmenu.react.DevMenuPackagerCommandHandlersSwapper
 import expo.modules.devmenu.react.DevMenuShakeDetectorListenerSwapper
@@ -348,6 +349,11 @@ object DevMenuManager : DevMenuManagerInterface, LifecycleEventListener {
   //region DevMenuManagerProtocol
 
   override fun openMenu(activity: Activity, screen: String?) {
+    val sharedInstaller = delegateReactContext?.getNativeModule(DevMenuModule::class.java)
+    val ownSharedInstallerInstance = hostReactContext?.getNativeModule(DevMenuModule::class.java)
+
+    ownSharedInstallerInstance?.sharedInstaller?.setBoundedRegistryHolder(sharedInstaller?.sharedInstaller?.getRegistryHolder() ?: 0)
+
     setCurrentScreen(null)
 
     activity.startActivity(Intent(activity, DevMenuActivity::class.java))
