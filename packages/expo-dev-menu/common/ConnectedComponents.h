@@ -8,6 +8,7 @@ namespace shared {
 
 class ComponentEntry;
 class SharedUIRegistry;
+class SharedUIRegistryHostObject;
 
 class ConnectedComponents {
 public:
@@ -16,6 +17,8 @@ public:
   std::vector<ComponentEntry> resolve(const SharedUIRegistry &registry);
 private:
   std::vector<std::string> components;
+  
+  friend SharedUIRegistryHostObject;
 };
 
 }

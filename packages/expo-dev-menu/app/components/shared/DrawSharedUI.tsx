@@ -16,6 +16,8 @@ function DrawSharedUI(prop) {
   if (!componentData) {
     return null;
   }
+
+  return <componentData.Component {...prop} />;
 }
 
 export default DrawSharedUI;

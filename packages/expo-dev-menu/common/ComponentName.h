@@ -15,6 +15,8 @@ public:
   bool operator==(const ComponentName &other) const;
   bool operator==(const std::string &other) const;
   
+  std::string toString();
+  
 private:
   std::string name;
   

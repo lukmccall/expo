@@ -34,7 +34,13 @@ jsi::Value SharedUIRegistryHostObject::get(jsi::Runtime &rt, const jsi::PropName
       jsObject.setProperty(rt, "hash", jsi::String::createFromUtf8(rt, component.getHash()));
       jsObject.setProperty(rt, "body", jsi::String::createFromUtf8(rt, component.getFunctionBody()));
       
-      return jsi::String::createFromUtf8(rt, body);
+      auto childrenArray = jsi::Array(rt, component.connectedComponents.components.size());
+      for (size_t i = 0; i < component.connectedComponents.components.size(); i++) {
+        childrenArray.setValueAtIndex(rt, i, jsi::String::createFromUtf8(rt, component.connectedComponents.components[i]));
+      }
+      jsObject.setProperty(rt, "children", std::move(childrenArray));
+      
+      return std::move(jsObject);
     };
     
     return jsi::Function::createFromHostFunction(
@@ -56,6 +62,10 @@ std::vector<jsi::PropNameID> SharedUIRegistryHostObject::getPropertyNames(jsi::R
 }
 
 void SharedUIRegistryHostObject::setRegistyHolderRef(unsigned long long rawPointer) {
+  if (rawPointer == 0) {
+    registryHolderRef = nullptr;
+    return;
+  }
   registryHolderRef = (std::weak_ptr<RegistryHolder> *)rawPointer;
 }
 

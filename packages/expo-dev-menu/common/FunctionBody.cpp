@@ -6,7 +6,7 @@ FunctionBody::FunctionBody(std::string body)
   : body(std::move(body)) {}
 
 std::string FunctionBody::prepare() {
-  return "(jsThis, React) => (" + body + ")";
+  return "((jsThis, React, require) => {" + body + "})";
 }
 
 }

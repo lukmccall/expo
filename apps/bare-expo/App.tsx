@@ -1,24 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-
-const SharedFunction = (function () {
-  const _f = function () {
-    return (
-      <View>
-        <Text>Shared Component</Text>
-      </View>
-    );
-  };
-
-  _f._name = 'SharedFunction';
-  _f._string = 'sharedFunction_function';
-  _f._fileName = 'App.tsx';
-  _f._lineNumber = 4;
-  _f._hash = '2137';
-  _f._uiClosure = [];
-
-  return _f;
-})();
+import { View, Text, Button } from 'react-native';
 
 const hashCode = function (s) {
   return s.split('').reduce(function (a, b) {
@@ -27,7 +8,7 @@ const hashCode = function (s) {
   }, 0);
 };
 
-const X = (function () {
+const Y = (function () {
   const _f = function _f() {
     return (
       <View>
@@ -36,7 +17,38 @@ const X = (function () {
     );
   };
 
-  _f._string = `function X(){return/*#__PURE__*/React.createElement(jsThis.View,null,/*#__PURE__*/React.createElement(jsThis.Text,null,"cos!"),/*#__PURE__*/React.createElement(jsThis.Button,{title:"Press me",onClick:function onClick(){console.alert("hi from on click!");}}));}`;
+  _f._string = `return function Y(){return/*#__PURE__*/React.createElement(jsThis.View,null,/*#__PURE__*/React.createElement(jsThis.Text,null,"Hi from Y!"));}`;
+  _f._uiClosure = ['View', 'Text'];
+
+  _f._name = 'Y';
+  _f._fileName = 'App.tsx';
+  _f._lineNumber = 4;
+  _f._hash = '' + hashCode(_f._string);
+
+  global.SharedUIEntryPoint?.exportSharedUI(_f);
+  return _f;
+})();
+
+const X = (function () {
+  const _f = function _f() {
+    const [state, setState] = React.useState(0);
+    return (
+      <View>
+        <Text style={{ fontSize: 50 }}>Counter {state}</Text>
+        <Button
+          title="Press me"
+          onPress={() => {
+            setState(state + 1);
+          }}
+        />
+      </View>
+    );
+  };
+
+  // _f._string = `return function X(){return/*#__PURE__*/React.createElement(jsThis.View,null,/*#__PURE__*/React.createElement(jsThis.Y,null),/*#__PURE__*/React.createElement(jsThis.Button,{title:"Press meee",onClick:function onClick(){console.log("hi from on click");}}));}`;
+  // _f._uiClosure = ['View', 'Y', 'Button'];
+
+  _f._string = `var _interopRequireDefault=require("@babel/runtime/helpers/interopRequireDefault");var _slicedToArray2=_interopRequireDefault(require("@babel/runtime/helpers/slicedToArray")); return function X(){var _React$useState=React.useState(0),_React$useState2=(0,_slicedToArray2.default)(_React$useState,2),state=_React$useState2[0],setState=_React$useState2[1];return/*#__PURE__*/React.createElement(jsThis.View,null,/*#__PURE__*/React.createElement(jsThis.Text,{style:{ fontSize: 50 }},"Counter ",state),/*#__PURE__*/React.createElement(jsThis.Button,{title:"Press me",onPress:function onClick(){setState(state+1);}}));}`;
   _f._uiClosure = ['View', 'Text', 'Button'];
 
   _f._name = 'X';
@@ -48,13 +60,10 @@ const X = (function () {
   return _f;
 })();
 
-// const x = global.SharedUIRegistry.getComponentData('dupa');
-// console.log(x);
-
 export default function Main() {
   return (
-    <View style={{ flex: 1 }}>
-      <Text> Hi 👋</Text>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <X />
     </View>
   );
 }

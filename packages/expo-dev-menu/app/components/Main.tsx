@@ -21,16 +21,17 @@ import {
   SettingsFilledIcon,
 } from 'expo-dev-client-components';
 import * as React from 'react';
-import { Platform, View as RNView, Text as RNText, Button as RNButton } from 'react-native';
+import { Platform } from 'react-native';
 import { Switch } from 'react-native-gesture-handler';
 
+import { getComponentData } from '../components/shared/SharedUIRegistry';
 import { useAppInfo } from '../hooks/useAppInfo';
 import { useBottomSheet } from '../hooks/useBottomSheet';
 import { useClipboard } from '../hooks/useClipboard';
 import { useDevSettings } from '../hooks/useDevSettings';
 import { isDevLauncherInstalled } from '../native-modules/DevLauncher';
 import { fireCallbackAsync } from '../native-modules/DevMenu';
-
+import DrawSharedUI from './shared/DrawSharedUI';
 type MainProps = {
   registeredCallbacks?: string[];
 };
@@ -221,19 +222,8 @@ export function Main({ registeredCallbacks = [] }: MainProps) {
           <SettingsRowButton
             label="Test bound"
             icon={null}
-            onPress={() => {
-              const body = global.SharedUIRegistry.getComponentData('X');
-              const WrappedX = eval(body);
-              const X = WrappedX(
-                {
-                  View: RNView,
-                  Text: RNText,
-                  Button: RNButton,
-                },
-                React
-              );
-
-              setSharedComponent(X);
+            onPress={async () => {
+              setSharedComponent(<DrawSharedUI componentName="X" p="da" />);
             }}
           />
         </View>

@@ -14,6 +14,7 @@ namespace jsi = facebook::jsi;
 namespace shared {
 
 class SharedUIRegistry;
+class SharedUIRegistryHostObject;
 
 class ComponentEntry {
 public:

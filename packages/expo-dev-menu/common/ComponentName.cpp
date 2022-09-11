@@ -13,6 +13,10 @@ bool ComponentName::operator==(const std::string &other) const {
   return other == this->name;
 }
 
+std::string ComponentName::toString() {
+  return name;
+}
+
 std::size_t ComponentNameHash::operator()(const ComponentName &componentName) const {
   return std::hash<std::string>{}(componentName.name);
 }

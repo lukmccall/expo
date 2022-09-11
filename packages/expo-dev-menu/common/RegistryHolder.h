@@ -22,6 +22,8 @@ public:
 
 private:
   std::unique_ptr<SharedUIRegistry> registry;
+  
+  friend SharedUIRegistry;
 };
 }
 

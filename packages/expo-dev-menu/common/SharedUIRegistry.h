@@ -32,7 +32,7 @@ private:
   std::vector<std::shared_ptr<SharedUIRegistryListener>> listeners;
   
   friend ConnectedComponents;
-  friend SharedUIRegistry
+  friend SharedUIRegistryHostObject;
 };
 
 }

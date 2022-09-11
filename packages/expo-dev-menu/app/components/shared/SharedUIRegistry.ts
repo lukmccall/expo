@@ -1,3 +1,7 @@
+import * as ReactNative from 'react-native';
+
+import * as Runtime from './Runtime';
+
 const { SharedUIRegistry } = global;
 
 const cache = {};
@@ -9,14 +13,29 @@ export async function getComponentData(componentName, rootComponent = componentN
   }
 
   const nativeResponse = SharedUIRegistry.getComponentData(componentName);
+  if (!nativeResponse) {
+    if (ReactNative[componentName]) {
+      const data = {
+        Component: ReactNative[componentName],
+        hash: `React_${componentName}`,
+        name: componentName,
+        children: [],
+      };
 
-  // const contex = Promise.all(
-  //   nativeResponse.children.map((child) => getComponentData(child, rootComponent))
-  // );
+      cache[componentName] = data;
+      return Promise.resolve(data);
+    }
 
-  //   const jsThis = convertToContextJSThis(contex);
+    throw Error(`Unknown component ${componentName}`);
+  }
 
-  //   const Component = Runtime.evaluateJavaScript(nativeResponse.body, jsThis);
+  const childrenData = await Promise.all(
+    nativeResponse.children.map((child) => getComponentData(child, rootComponent))
+  );
+
+  const jsThis = Runtime.createJsThisFromContext(childrenData);
+
+  const Component = Runtime.evaluateSharedComponent(nativeResponse.body, jsThis);
 
   if (!dependencies[rootComponent]) {
     dependencies[rootComponent] = [];
@@ -24,10 +43,14 @@ export async function getComponentData(componentName, rootComponent = componentN
 
   dependencies[rootComponent].push(componentName);
 
-  return Promise.resolve({
-    // Component,
+  const data = {
+    Component,
     hash: nativeResponse.hash,
     name: componentName,
-    // children: contex,
-  });
+    children: childrenData,
+  };
+
+  cache[componentName] = data;
+
+  return Promise.resolve(data);
 }

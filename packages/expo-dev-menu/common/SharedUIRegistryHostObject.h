@@ -15,7 +15,7 @@ public:
 
   std::vector<jsi::PropNameID> getPropertyNames(jsi::Runtime &rt) override;
 
-  void setRegistyHolderRef(unsigned long long rawPointer); 
+  void setRegistyHolderRef(unsigned long long rawPointer);
 private:
   std::weak_ptr<RegistryHolder> *registryHolderRef = nullptr;
 };

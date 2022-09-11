@@ -27,6 +27,24 @@ jsi::Value SharedUIEntryPoint::get(jsi::Runtime &rt, const jsi::PropNameID &name
     return jsi::Function::createFromHostFunction(
       rt, name, 1, std::move(callback)
     );
+  } else if (cName == "markAsRoot") {
+    auto callback = [this](
+      jsi::Runtime &rt,
+      const jsi::Value &thisValue,
+      const jsi::Value *args,
+      size_t count
+    ) -> jsi::Value {
+      auto strongHolder = this->registryHolder.lock();
+      if (strongHolder == nullptr) {
+        return jsi::Value::undefined();
+      }
+      auto entry = ComponentEntry::createFromValue(rt, args[0]);
+      return jsi::Value::undefined();
+    };
+
+    return jsi::Function::createFromHostFunction(
+      rt, name, 1, std::move(callback)
+    );
   }
   
   return jsi::Value::undefined();
